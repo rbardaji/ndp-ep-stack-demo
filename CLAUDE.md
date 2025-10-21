@@ -18,6 +18,7 @@ This project creates a Docker container with Docker-in-Docker (DinD) that runs a
   - NGINX as reverse proxy
   - PRE-CKAN 2.11.3 with standard extensions
 - **MongoDB database** for document storage and NoSQL capabilities
+- **Mongo Express** web-based MongoDB admin interface
 
 #### Configuration Files
 - `Dockerfile`: Ubuntu base with Docker installation
@@ -38,6 +39,7 @@ This project creates a Docker container with Docker-in-Docker (DinD) that runs a
 - **NGINX**: http://localhost:81
 - **PRE-CKAN API**: http://localhost:5001/api/3/action/
 - **MongoDB**: mongodb://localhost:27017
+- **Mongo Express**: http://localhost:8081
 
 ### 🔑 Authentication
 - **Unified credentials** for both PRE-CKAN and MongoDB (default: admin/admin123)
@@ -84,7 +86,7 @@ The container uses Docker-in-Docker to run the PRE-CKAN stack internally. This a
 ### Service Dependencies
 ```
 NGINX ← PRE-CKAN ← [PostgreSQL, Solr, Redis, Datapusher]
-                   MongoDB (standalone)
+                   MongoDB ← Mongo Express (web UI)
 ```
 
 ### Environment Variables
@@ -101,6 +103,7 @@ NGINX ← PRE-CKAN ← [PostgreSQL, Solr, Redis, Datapusher]
 - ✅ Token generation working
 - ✅ API authentication functional
 - ✅ MongoDB running with authentication enabled
+- ✅ Mongo Express web interface accessible with basic auth
 
 ## Repository
 - Remote: git@github.com:rbardaji/ndp-ep-stack-demo.git

@@ -10,6 +10,7 @@ services:
       - "5001:5000"  # Puerto PRE-CKAN
       - "81:81"      # Puerto NGINX
       - "27017:27017" # Puerto MongoDB
+      - "8081:8081"   # Puerto Mongo Express
     environment:
       - DOCKER_TLS_CERTDIR=""
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}

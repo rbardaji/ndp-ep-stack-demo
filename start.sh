@@ -61,6 +61,28 @@ docker run -d \
 
 echo "MongoDB iniciado en puerto 27017"
 
+# Esperar a que MongoDB esté listo
+echo "Esperando a que MongoDB esté listo..."
+until docker exec mongodb-internal mongosh --eval "db.runCommand({ping: 1})" > /dev/null 2>&1; do
+    echo "MongoDB no está listo aún, esperando..."
+    sleep 5
+done
+
+# Iniciar Mongo Express para interfaz web de MongoDB
+echo "Iniciando Mongo Express..."
+docker run -d \
+    --name mongo-express-internal \
+    --network host \
+    -e ME_CONFIG_MONGODB_ADMINUSERNAME=${ADMIN_USERNAME:-admin} \
+    -e ME_CONFIG_MONGODB_ADMINPASSWORD=${ADMIN_PASSWORD:-admin123} \
+    -e ME_CONFIG_MONGODB_URL=mongodb://${ADMIN_USERNAME:-admin}:${ADMIN_PASSWORD:-admin123}@127.0.0.1:27017/ \
+    -e ME_CONFIG_BASICAUTH_USERNAME=${ADMIN_USERNAME:-admin} \
+    -e ME_CONFIG_BASICAUTH_PASSWORD=${ADMIN_PASSWORD:-admin123} \
+    -p 8081:8081 \
+    mongo-express:latest
+
+echo "Mongo Express iniciado en puerto 8081"
+
 # Construir e iniciar los servicios de PRE-CKAN
 echo "Iniciando PRE-CKAN..."
 docker compose up --build -d
@@ -106,7 +128,8 @@ echo "🌐 SERVICIOS DISPONIBLES:"
 echo "🔗 PRE-CKAN: http://localhost:5001"
 echo "🔗 NGINX: http://localhost:81"
 echo "🔗 MongoDB: mongodb://localhost:27017"
-echo "📊 MongoDB Admin: ${ADMIN_USERNAME:-admin}/${ADMIN_PASSWORD:-admin123}"
+echo "🖥️  Mongo Express: http://localhost:8081"
+echo "📊 Credenciales: ${ADMIN_USERNAME:-admin}/${ADMIN_PASSWORD:-admin123}"
 echo "🔑 API Token: $API_TOKEN"
 echo "==========================================="
 
