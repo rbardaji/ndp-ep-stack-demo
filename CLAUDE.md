@@ -40,7 +40,8 @@ This project creates a Docker container with Docker-in-Docker (DinD) that runs a
 - **MongoDB**: mongodb://localhost:27017
 
 ### 🔑 Authentication
-- API tokens are automatically generated and stored in:
+- **Unified credentials** for both PRE-CKAN and MongoDB (default: admin/admin123)
+- **PRE-CKAN API tokens** are automatically generated and stored in:
   - `/app/tokens/api_token.txt` - Raw token
   - `/app/tokens/ckan_token.env` - Environment variable format
 
@@ -87,9 +88,9 @@ NGINX ← PRE-CKAN ← [PostgreSQL, Solr, Redis, Datapusher]
 ```
 
 ### Environment Variables
-- `ADMIN_USERNAME`: Administrator username (default: admin)
-- `ADMIN_PASSWORD`: Administrator password (default: admin123)  
-- `ADMIN_EMAIL`: Administrator email (default: admin@example.com)
+- `ADMIN_USERNAME`: Administrator username for both PRE-CKAN and MongoDB (default: admin)
+- `ADMIN_PASSWORD`: Administrator password for both PRE-CKAN and MongoDB (default: admin123)  
+- `ADMIN_EMAIL`: Administrator email for PRE-CKAN (default: admin@example.com)
 - `CKAN_SITE_URL`: PRE-CKAN site URL (default: http://localhost:5001)
 
 ## Testing Status
