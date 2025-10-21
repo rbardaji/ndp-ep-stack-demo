@@ -10,7 +10,7 @@ while ! docker info > /dev/null 2>&1; do
     sleep 1
 done
 
-echo "Docker está listo. Iniciando CKAN..."
+echo "Docker está listo. Iniciando PRE-CKAN..."
 
 # Cambiar al directorio ckan-docker
 cd /app/ckan-docker
@@ -48,18 +48,18 @@ fi
 echo "Configuración actualizada:"
 grep -E "(CKAN_SYSADMIN_NAME|CKAN_SYSADMIN_PASSWORD|CKAN_SYSADMIN_EMAIL|CKAN_SITE_URL)" .env
 
-# Construir e iniciar los servicios de CKAN
-echo "Iniciando CKAN..."
+# Construir e iniciar los servicios de PRE-CKAN
+echo "Iniciando PRE-CKAN..."
 docker compose up --build -d
 
-# Esperar a que CKAN esté completamente listo
-echo "Esperando a que CKAN esté listo..."
+# Esperar a que PRE-CKAN esté completamente listo
+echo "Esperando a que PRE-CKAN esté listo..."
 until curl -s http://localhost:5000/api/3/action/status_show > /dev/null 2>&1; do
-    echo "CKAN no está listo aún, esperando..."
+    echo "PRE-CKAN no está listo aún, esperando..."
     sleep 10
 done
 
-echo "CKAN está listo. Creando token de API..."
+echo "PRE-CKAN está listo. Creando token de API..."
 
 # Crear token de API para el usuario administrador
 ADMIN_USER=${ADMIN_USERNAME:-admin}
@@ -90,7 +90,7 @@ fi
 # Mostrar resumen de URLs de acceso
 echo "==========================================="
 echo "🌐 SERVICIOS DISPONIBLES:"
-echo "🔗 CKAN: http://localhost:5001"
+echo "🔗 PRE-CKAN: http://localhost:5001"
 echo "🔗 NGINX: http://localhost:81"
 echo "🔑 API Token: $API_TOKEN"
 echo "==========================================="

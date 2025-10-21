@@ -1,5 +1,5 @@
 services:
-  ckan-demo:
+  pre-ckan-demo:
     build: .
     privileged: true
     working_dir: /app/ckan-docker
@@ -7,7 +7,7 @@ services:
       - /var/lib/docker
       - ./tokens:/app/tokens
     ports:
-      - "5001:5000"  # Puerto CKAN
+      - "5001:5000"  # Puerto PRE-CKAN
       - "81:81"      # Puerto NGINX
     environment:
       - DOCKER_TLS_CERTDIR=""
