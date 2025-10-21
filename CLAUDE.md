@@ -19,6 +19,7 @@ This project creates a Docker container with Docker-in-Docker (DinD) that runs a
   - PRE-CKAN 2.11.3 with standard extensions
 - **MongoDB database** for document storage and NoSQL capabilities
 - **Mongo Express** web-based MongoDB admin interface
+- **MinIO** S3-compatible object storage with web console
 
 #### Configuration Files
 - `Dockerfile`: Ubuntu base with Docker installation
@@ -40,6 +41,8 @@ This project creates a Docker container with Docker-in-Docker (DinD) that runs a
 - **PRE-CKAN API**: http://localhost:5001/api/3/action/
 - **MongoDB**: mongodb://localhost:27017
 - **Mongo Express**: http://localhost:8081
+- **MinIO API**: http://localhost:9000
+- **MinIO Console**: http://localhost:9001
 
 ### 🔑 Authentication
 - **Unified credentials** for both PRE-CKAN and MongoDB (default: admin/admin123)
@@ -87,6 +90,7 @@ The container uses Docker-in-Docker to run the PRE-CKAN stack internally. This a
 ```
 NGINX ← PRE-CKAN ← [PostgreSQL, Solr, Redis, Datapusher]
                    MongoDB ← Mongo Express (web UI)
+                   MinIO ← MinIO Console (web UI)
 ```
 
 ### Environment Variables
@@ -104,6 +108,7 @@ NGINX ← PRE-CKAN ← [PostgreSQL, Solr, Redis, Datapusher]
 - ✅ API authentication functional
 - ✅ MongoDB running with authentication enabled
 - ✅ Mongo Express web interface accessible with basic auth
+- ✅ MinIO S3-compatible storage with web console
 
 ## Repository
 - Remote: git@github.com:rbardaji/ndp-ep-stack-demo.git

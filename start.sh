@@ -83,6 +83,20 @@ docker run -d \
 
 echo "Mongo Express iniciado en puerto 8081"
 
+# Iniciar MinIO para almacenamiento S3-compatible
+echo "Iniciando MinIO..."
+docker run -d \
+    --name minio-internal \
+    --network host \
+    -e MINIO_ROOT_USER=${ADMIN_USERNAME:-admin} \
+    -e MINIO_ROOT_PASSWORD=${ADMIN_PASSWORD:-admin123} \
+    -v minio_data:/data \
+    -p 9000:9000 \
+    -p 9001:9001 \
+    minio/minio:latest server /data --console-address ":9001"
+
+echo "MinIO iniciado - API: puerto 9000, Console: puerto 9001"
+
 # Construir e iniciar los servicios de PRE-CKAN
 echo "Iniciando PRE-CKAN..."
 docker compose up --build -d
@@ -129,6 +143,8 @@ echo "🔗 PRE-CKAN: http://localhost:5001"
 echo "🔗 NGINX: http://localhost:81"
 echo "🔗 MongoDB: mongodb://localhost:27017"
 echo "🖥️  Mongo Express: http://localhost:8081"
+echo "🗂️  MinIO API: http://localhost:9000"
+echo "🎛️  MinIO Console: http://localhost:9001"
 echo "📊 Credenciales: ${ADMIN_USERNAME:-admin}/${ADMIN_PASSWORD:-admin123}"
 echo "🔑 API Token: $API_TOKEN"
 echo "==========================================="

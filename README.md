@@ -9,13 +9,14 @@ This single Docker container provides a complete data platform stack:
 - **PRE-CKAN 2.11.3** - Open data platform with PostgreSQL, Solr, Redis, Datapusher, and NGINX
 - **MongoDB** - NoSQL document database with authentication
 - **Mongo Express** - Web-based MongoDB administration interface
+- **MinIO** - S3-compatible object storage with web console
 - **Unified Authentication** - Single admin credentials for all services
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Docker and Docker Compose installed
-- Available ports: 5001, 81, 27017, 8081
+- Available ports: 5001, 81, 27017, 8081, 9000, 9001
 
 ### Basic Usage
 
@@ -46,6 +47,8 @@ After starting, the following services will be available:
 | **NGINX** | http://localhost:81 | - |
 | **MongoDB** | mongodb://localhost:27017 | admin / admin123 |
 | **Mongo Express** | http://localhost:8081 | admin / admin123 |
+| **MinIO API** | http://localhost:9000 | admin / admin123 |
+| **MinIO Console** | http://localhost:9001 | admin / admin123 |
 
 ## 🔑 Authentication
 
@@ -114,6 +117,12 @@ CKAN_SITE_URL=http://localhost:5001
 - **Basic authentication** using unified credentials
 - **Full database administration** capabilities
 
+### MinIO
+- **S3-compatible API** for object storage
+- **Web console** for bucket and object management
+- **Persistent storage** using Docker volumes
+- **Access keys** configured with unified credentials
+
 ## 🛠️ Common Operations
 
 ### View Running Services
@@ -142,6 +151,10 @@ curl -H "Authorization: $API_TOKEN" "http://localhost:5001/api/3/action/package_
 
 # Export MongoDB data
 docker exec ndp-ep-stack-demo-pre-ckan-demo-1 docker exec mongodb-internal mongodump --authenticationDatabase admin -u admin -p admin123
+
+# Access MinIO with mc client
+docker exec ndp-ep-stack-demo-pre-ckan-demo-1 docker run --rm --network host minio/mc alias set local http://localhost:9000 admin admin123
+docker exec ndp-ep-stack-demo-pre-ckan-demo-1 docker run --rm --network host minio/mc ls local
 ```
 
 ### Reset Everything

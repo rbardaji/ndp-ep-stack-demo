@@ -11,6 +11,8 @@ services:
       - "81:81"      # Puerto NGINX
       - "27017:27017" # Puerto MongoDB
       - "8081:8081"   # Puerto Mongo Express
+      - "9000:9000"   # Puerto MinIO API
+      - "9001:9001"   # Puerto MinIO Console
     environment:
       - DOCKER_TLS_CERTDIR=""
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
