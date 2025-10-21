@@ -48,6 +48,19 @@ fi
 echo "Configuración actualizada:"
 grep -E "(CKAN_SYSADMIN_NAME|CKAN_SYSADMIN_PASSWORD|CKAN_SYSADMIN_EMAIL|CKAN_SITE_URL)" .env
 
+# Iniciar MongoDB en segundo plano
+echo "Iniciando MongoDB..."
+docker run -d \
+    --name mongodb-internal \
+    --network host \
+    -e MONGO_INITDB_ROOT_USERNAME=${ADMIN_USERNAME:-admin} \
+    -e MONGO_INITDB_ROOT_PASSWORD=${ADMIN_PASSWORD:-admin123} \
+    -v mongodb_data:/data/db \
+    -p 27017:27017 \
+    mongo:latest
+
+echo "MongoDB iniciado en puerto 27017"
+
 # Construir e iniciar los servicios de PRE-CKAN
 echo "Iniciando PRE-CKAN..."
 docker compose up --build -d
@@ -92,6 +105,8 @@ echo "==========================================="
 echo "🌐 SERVICIOS DISPONIBLES:"
 echo "🔗 PRE-CKAN: http://localhost:5001"
 echo "🔗 NGINX: http://localhost:81"
+echo "🔗 MongoDB: mongodb://localhost:27017"
+echo "📊 MongoDB Admin: ${ADMIN_USERNAME:-admin}/${ADMIN_PASSWORD:-admin123}"
 echo "🔑 API Token: $API_TOKEN"
 echo "==========================================="
 

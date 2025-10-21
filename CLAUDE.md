@@ -10,13 +10,14 @@ This project creates a Docker container with Docker-in-Docker (DinD) that runs a
 
 #### Core Infrastructure
 - **Ubuntu 22.04 base image** with Docker-in-Docker support
-- **Complete CKAN stack** including:
+- **Complete PRE-CKAN stack** including:
   - PostgreSQL database with datastore configuration
   - Solr for search functionality
   - Redis for caching
   - Datapusher for data processing
   - NGINX as reverse proxy
   - PRE-CKAN 2.11.3 with standard extensions
+- **MongoDB database** for document storage and NoSQL capabilities
 
 #### Configuration Files
 - `Dockerfile`: Ubuntu base with Docker installation
@@ -36,6 +37,7 @@ This project creates a Docker container with Docker-in-Docker (DinD) that runs a
 - **PRE-CKAN Interface**: http://localhost:5001
 - **NGINX**: http://localhost:81
 - **PRE-CKAN API**: http://localhost:5001/api/3/action/
+- **MongoDB**: mongodb://localhost:27017
 
 ### 🔑 Authentication
 - API tokens are automatically generated and stored in:
@@ -81,6 +83,7 @@ The container uses Docker-in-Docker to run the PRE-CKAN stack internally. This a
 ### Service Dependencies
 ```
 NGINX ← PRE-CKAN ← [PostgreSQL, Solr, Redis, Datapusher]
+                   MongoDB (standalone)
 ```
 
 ### Environment Variables
@@ -96,6 +99,7 @@ NGINX ← PRE-CKAN ← [PostgreSQL, Solr, Redis, Datapusher]
 - ✅ API endpoints responding
 - ✅ Token generation working
 - ✅ API authentication functional
+- ✅ MongoDB running with authentication enabled
 
 ## Repository
 - Remote: git@github.com:rbardaji/ndp-ep-stack-demo.git
